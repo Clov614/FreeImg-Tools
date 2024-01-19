@@ -145,4 +145,19 @@
 
     </build>
 
+    <url>https://github.com/Clov614/FreeImg-Tools</url>
+
+    <!--开发者信息-->
+    <developers>
+        <developer>
+            <id>Clov614</id>
+            <name>Clov614</name>
+            <email>clov614@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
 </project>

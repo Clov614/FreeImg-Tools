@@ -145,6 +145,15 @@
 
     </build>
 
+
+    <scm>
+        <url>https://github.com/Clov614/FreeImg-Tools</url>
+        <connection>https://github.com/Clov614/FreeImg-Tools.git</connection>
+        <developerConnection>https://github.com/Clov614/FreeImg-Tools</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+
     <url>https://github.com/Clov614/FreeImg-Tools</url>
 
     <!--开发者信息-->
@@ -159,5 +168,15 @@
             <timezone>+8</timezone>
         </developer>
     </developers>
+
+    <!--开源协议...-->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
 </project>

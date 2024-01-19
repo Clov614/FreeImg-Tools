@@ -68,6 +68,14 @@ public class FreeImgToolTest {
         org.springframework.core.io.Resource resource = loader.getResource("classpath:/image.png");
         return resource.getFile();
     }
+
+    @Test
+    void deleteTest() {
+        // https://www.freeimg.cn/delete/uyq5wp/a1101ccdb1e9a066238b8ae972383f46
+        boolean b = freeImgCrudTool
+                .deleteImg("https://www.freeimg.cn/delete/uyq5wp/a1101ccdb1e9a066238b8ae972383f46");
+        System.out.println(b);
+    }
 }
 ```
 

@@ -27,3 +27,53 @@ cloverapi:
     free-img-album-id: 102
 ```
 
+### 3. 使用示例
+
+这里使用的是 SpringBoot 的测试类作为使用 demo，如下：
+
+```java
+@SpringBootTest
+@ActiveProfiles({"work"})
+public class FreeImgToolTest {
+
+    @Resource
+    private FreeImgCrudTool freeImgCrudTool;
+
+    @Test
+    void uploadImgByFileTest() throws IOException {
+
+        UploadImgRes uploadImgRes = freeImgCrudTool.uploadImage(getFile());
+        System.out.println(uploadImgRes);
+        System.out.println(uploadImgRes.getData());
+        System.out.println(uploadImgRes.getData().getLinks());
+    }
+
+    @Test
+    void uploadImgByStreamTest() throws IOException {
+        ResourceLoader loader = new DefaultResourceLoader();
+        org.springframework.core.io.Resource resource = loader.getResource("classpath:/image.png");
+        UploadImgRes uploadImgRes = freeImgCrudTool.uploadImage(resource.getInputStream());
+        System.out.println(uploadImgRes);
+        System.out.println(uploadImgRes.getData());
+        System.out.println(uploadImgRes.getData().getLinks());
+    }
+
+    /**
+     * 获取类路径下的图片文件
+     * @return
+     * @throws IOException
+     */
+    private static File getFile() throws IOException {
+        ResourceLoader loader = new DefaultResourceLoader();
+        org.springframework.core.io.Resource resource = loader.getResource("classpath:/image.png");
+        return resource.getFile();
+    }
+}
+```
+
+#### 将 FreeImgCrudTool 依赖注入进来使用
+
+```java
+@Resource
+private FreeImgCrudTool freeImgCrudTool;
+```

@@ -21,9 +21,27 @@ public class FreeImgConfig {
      */
     public Integer FREEIMG_ALBUM_ID;
 
+    public FreeImgConfig() {}
+
     public FreeImgConfig(String uploadImgUrl, String freeImgToken, Integer freeImgAlbumId) {
         this.UPLOAD_IMAGE_URL = uploadImgUrl;
         this.FREEIMG_TOKEN = freeImgToken;
         this.FREEIMG_ALBUM_ID = freeImgAlbumId;
     }
+
+    public FreeImgConfig setUploadImageUrl(String uploadImgUrl) {
+        this.UPLOAD_IMAGE_URL = uploadImgUrl;
+        return this;
+    }
+
+    public FreeImgConfig setFreeImageToken(String freeImgToken) {
+        this.FREEIMG_TOKEN = freeImgToken;
+        return this;
+    }
+
+    public FreeImgConfig setFreeImageAlbumId(Integer freeImgAlbumId) {
+        this.FREEIMG_ALBUM_ID = freeImgAlbumId;
+        return this;
+    }
+
 }

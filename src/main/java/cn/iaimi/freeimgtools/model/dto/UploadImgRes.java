@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-
 public class UploadImgRes extends FreeImgResponse<UploadImgRes.DataImg> {
 
     @Data

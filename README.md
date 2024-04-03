@@ -10,7 +10,7 @@
 <dependency>
     <groupId>cn.iaimi</groupId>
     <artifactId>FreeImg-Tools</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
@@ -84,4 +84,41 @@ public class FreeImgToolTest {
 ```java
 @Resource
 private FreeImgCrudTool freeImgCrudTool;
+```
+
+#### 第二种使用方式-工厂模式
+
+```java
+public class UploadImageToolTest {
+
+    private final String FREEIMG_TOKEN = "Bearer 100|fvxxxxxxxxxxxxXP";
+    private final Integer FREEIMG_ALBUM_ID = 102;
+
+
+    @Test
+    public void useFactoryTest() throws IOException {
+        FreeImgCrudTool freeImgCrudTool = FreeImgToolsFactory.create()
+                .setFreeImageToken(FREEIMG_TOKEN)  // "Bearer 100|fvxxxxxxxxxxxxXP"
+                .setFreeImageAlbumId(FREEIMG_ALBUM_ID) // 相册id  102
+                .build();
+        // 上传照片
+        cn.iaimi.freeimgtools.model.domain.Image image = freeImgCrudTool.upload(getFile());
+        System.out.println(image);
+        // 删除照片
+        boolean isSuccess = freeImgCrudTool.delete(image);// 推荐使用delete 也可以使用 freeImgCrudTool.deleteImg(<传入deleleUrl>)
+        if (isSuccess) {
+            System.out.println("删除成功");
+        } else {
+            System.out.println("删除失败");
+        }
+    }
+
+    private static File getFile() throws IOException {
+        ResourceLoader loader = new DefaultResourceLoader();
+        Resource resource = loader.getResource("classpath:/image.png");
+        String absolutePath = resource.getFile().getAbsolutePath();
+        System.out.println(absolutePath);
+        return resource.getFile();
+    }
+}
 ```

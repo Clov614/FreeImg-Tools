@@ -31,7 +31,32 @@ public class FreeImgCrudTool {
     @Resource
     private FreeImgConfig freeImgConfig;
 
+    public FreeImgCrudTool() {
+    }
+
+    public FreeImgCrudTool(FreeImgConfig freeImgConfig) {
+        this.freeImgConfig = freeImgConfig;
+    }
+
     private static final String ERROR_STR = "文件参数 || 流 为空";
+
+    public FreeImgCrudTool setFreeImgConfig(FreeImgConfig freeImgConfig) {
+        this.freeImgConfig = freeImgConfig;
+        return this;
+    }
+
+    public Image upload(File imageFile) {
+        UploadImgRes uploadImgRes = uploadImage(imageFile);
+        UploadImgRes.DataImg data = uploadImgRes.getData();
+        UploadImgRes.Links links = uploadImgRes.getData().getLinks();
+        if (null == data || null == links) {
+            throw new BizException(ErrorCode.SYSTEM_ERROR, "上传图片错误");
+        }
+        return new Image().imgKey(data.getKey())
+                .name(data.getName())
+                .url(links.getUrl())
+                .deleteUrl(links.getDeleteUrl());
+    }
 
     public UploadImgRes uploadImage(File file) {
         // 确保文件参数不为空
@@ -70,14 +95,14 @@ public class FreeImgCrudTool {
         return getUploadImgRes(localFile);
     }
 
-    public UploadImgRes uploadImage(InputStream inputStream) {
+    public UploadImgRes uploadImage(InputStream inputStream, String imageName) {
         // 确保参数不为空
         if (inputStream == null) {
             throw new BizException(ErrorCode.PARAMS_ERROR, ERROR_STR);
         }
         // 将InputStream 转为 File
         String basePath = System.getProperty("user.dir");
-        File localFile = new File(basePath + "/temp_image.jpg");
+        File localFile = new File(basePath + "/" + imageName + ".jpg");
         try {
             // 使用工具方法保存InputStream到文件
             FileUtils.copyInputStreamToFile(inputStream, localFile);
@@ -115,6 +140,16 @@ public class FreeImgCrudTool {
     }
 
     /**
+     * 删除图片
+     *
+     * @param image 根据图片中的deleteUrl
+     * @return 是否删除成功
+     */
+    public boolean delete(Image image) {
+        return deleteImg(image.deleteUrl());
+    }
+
+    /**
      * 根据delete_url请求删除
      *
      * @param deleteUrl 删除url image字段中有
@@ -135,6 +170,17 @@ public class FreeImgCrudTool {
     @Deprecated
     public boolean deleteImg(Image image) {
         String key = image.imgKey();
+        return deleteImgByKey(key);
+    }
+
+    /**
+     * 根据 图片 key 删除图片
+     *
+     * @param key GgfIyQ
+     * @return 是否删除成功
+     */
+    @Deprecated
+    public boolean deleteImgByKey(String key) {
         String deleteUrl = "https://www.freeimg.cn/images/" + key;
 
         HashMap<String, Object> paramMap = new HashMap<>();
